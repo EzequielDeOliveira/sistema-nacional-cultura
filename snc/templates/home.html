@@ -4,7 +4,7 @@
     <span class="anchorjs-icon"></span>
   </a>
 </h2>
-{% if request.user.usuario.estado_processo == '0' %}
+{% if not request.session.sistema_cultura_selecionado %}
   <div class="alert alert-info" role="alert">
     <strong>Caso o seu município já esteja cadastrado, e não possui acesso ao sistema:</strong><br><br>
     <a href="{% url 'adesao:alterar_cadastrador' %}" target="_blank">- Imprima o modelo de ofício, que pode ser encontrado clicando aqui</a><br>
@@ -20,9 +20,9 @@
   <p style="text-align: justify;">{% blocktrans %}Clique nas abas "Ente Federado", "Interlocutor" e "Responsável" 
   e preencha as informações para gerar o Acordo de Cooperação Federativa e a Solicitação de Integração ao SNC.
   {% endblocktrans %}</p>
-{% elif request.user.usuario.estado_processo == '1' %} 
+{% elif request.session.sistema_cultura_selecionado.estado_processo == '1' %} 
   {% include "conclusao_cadastro.html" %} 
-{% elif request.user.usuario.estado_processo == '2' %}
+{% elif request.session.sistema_cultura_selecionado.estado_processo == '2' %}
   <p>
     Informamos o recebimento da documentação física necessária para efetivar a Adesão ao SNC.
   </p>
@@ -39,7 +39,7 @@
     Atenciosamente,
     <br> Equipe SNC
   </p>
-{% elif request.user.usuario.estado_processo == '3' %}
+{% elif request.session.sistema_cultura_selecionado.estado_processo == '3' %}
   <p>
     Consta em nossos registros a pendência da seguinte documentação física necessária para
     efetivar a Adesão ao SNC:<br><br>
@@ -54,9 +54,9 @@
     Atenciosamente,<br>
     Equipe SNC
   </p>
-{% elif request.user.usuario.estado_processo == '4' %}
+{% elif request.session.sistema_cultura_selecionado.estado_processo == '4' %}
   <p>
-    Prezad@ {{ request.user.usuario.nome_usuario }},
+    Prezad@ {{ request.session.sistema_cultura_selecionado.nome_usuario }},
   </p>
   <p>
     O acordo de cooperação foi enviado para assinatura do Secretário de Articulação Institucional, representante do ministério na assinatura do acordo. Em seguida, providenciaremos a publicação no Diário Oficial da União.
@@ -68,9 +68,9 @@
     Atenciosamente,<br>
     Equipe SNC
   </p>
-{% elif request.user.usuario.estado_processo == '5' %}
+{% elif request.session.sistema_cultura_selecionado.estado_processo == '5' %}
   <p>
-    Prezad@ {{ request.user.usuario.nome_usuario }}
+    Prezad@ {{ request.session.sistema_cultura_selecionado.nome_usuario }}
   </p>
   <p>
     Sua solicitação foi confirmada pela nossa equipe. Estamos providenciando a publicação do seu acordo no Diário Oficial da União.
@@ -82,20 +82,20 @@
     Atenciosamente,<br>
     Equipe SNC
   </p>
-{% elif request.user.usuario.estado_processo == '6' %}
+{% elif request.session.sistema_cultura_selecionado.estado_processo == '6' %}
   <p style="text-align: justify;">
     Parabéns! Seu Acordo de Cooperação Federativa foi publicado no Diário Oficial da União (DOU).
   </p>
 
   <p style="text-align: justify;">
-    Agora você já pode iniciar o seu Plano de Trabalho, <a href="{% url 'planotrabalho:planotrabalho' request.user.usuario.plano_trabalho.id %}">clicando aqui</a>
+    Agora você já pode iniciar o seu Plano de Trabalho, <a href="{% url 'planotrabalho:planotrabalho' request.session.sistema_cultura_selecionado.plano_trabalho.id %}">clicando aqui</a>
     ou no menu a esquerda na opção "Plano de Trabalho"
   </p>
 
-  {% if request.user.usuario.link_publicacao_acordo %}
+  {% if request.session.sistema_cultura_selecionado.link_publicacao_acordo %}
     <p style="text-align: justify;">
       Para visualizar a publicação do Acordo de Cooperação no Diário Oficial da União,
-      <a href="{{ request.user.usuario.link_publicacao_acordo }}"> clique aqui</a>.
+      <a href="{{ request.session.sistema_cultura_selecionado.link_publicacao_acordo }}"> clique aqui</a>.
     </p>
   {% else %}
     <p style="text-align: justify;">
@@ -105,7 +105,7 @@
       <ol>
         <li>Insira o nome do seu município em "Informe o termo"</li>
         <li>Selecione "DOU3"</li>
-        <li>Informe a data de {{ request.user.usuario.data_publicacao_acordo }} em "Data Inicial e Data Final"</li>
+        <li>Informe a data de {{ request.session.sistema_cultura_selecionado.data_publicacao_acordo }} em "Data Inicial e Data Final"</li>
       </ol>
     </p>
 
